@@ -18,7 +18,9 @@ public class Question
     public DateTime? UpdatedAt { get; set; }
     public int ViewCount { get; set; }
     public List<string> TagSlugs { get; set; } = [];
-    public bool BHasAcceptedAnswer { get; set; }
+    public bool HasAcceptedAnswer { get; set; }
     public int Votes { get; set; }
+    public int AnswerCount { get; set; }
+    public List<Answer> Answers { get; set; } = [];
 
 }

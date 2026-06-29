@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using QuestionService.Data;
@@ -12,9 +13,11 @@ using QuestionService.Data;
 namespace QuestionService.Data.Migrations
 {
     [DbContext(typeof(QuestionDbContext))]
-    partial class QuestionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260629114219_AnswerEntityAdded")]
+    partial class AnswerEntityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,8 +37,8 @@ namespace QuestionService.Data.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("character varying(5000)");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -84,6 +87,9 @@ namespace QuestionService.Data.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("character varying(36)");
 
+                    b.Property<bool>("BHasAcceptedAnswer")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(5000)
@@ -91,9 +97,6 @@ namespace QuestionService.Data.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("HasAcceptedAnswer")
-                        .HasColumnType("boolean");
 
                     b.PrimitiveCollection<List<string>>("TagSlugs")
                         .IsRequired()
@@ -219,7 +222,7 @@ namespace QuestionService.Data.Migrations
             modelBuilder.Entity("QuestionService.Models.Answer", b =>
                 {
                     b.HasOne("QuestionService.Models.Question", "Question")
-                        .WithMany("Answers")
+                        .WithMany("Answer")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -229,7 +232,7 @@ namespace QuestionService.Data.Migrations
 
             modelBuilder.Entity("QuestionService.Models.Question", b =>
                 {
-                    b.Navigation("Answers");
+                    b.Navigation("Answer");
                 });
 #pragma warning restore 612, 618
         }
