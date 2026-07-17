@@ -11,8 +11,9 @@ export default async function QuestionDetailedPage({params}: {params: Params}) {
     
     const {id} = await params;
     
-    const question = await getQuestionById(id);
+    const {data: question, error} = await getQuestionById(id);
     
+    if(error) throw error;
     if(!question) return notFound();
     
     return (
